@@ -42,20 +42,14 @@ def tiktaktoe_player_vs_player():
             print("Game tied")
             game_over = True
 
-        # check if game is won - horizontal
-        for i in [0, 3, 6]:
-            if set(board[i:i+3]) == set(['o']):
-                print("Player 2 has won the game")
+        winning_indices = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
+        
+        for index in winning_indices:
+            board_set = set([board[index[0]], board[index[1]], board[index[2]]])
+            if board_set == set('x') or board_set == set('o'):
+                print(str(turn) + " has won the game!")
                 game_over = True
                 break
-            elif set(board[i:i+3]) == set(['x']):
-                print("Player 1 has won the game")
-                game_over = True
-                break
-
-        # check if game is won - vertical
-
-        # check if game is won - diagonal
 
 def generate_board_string(board):
     square_width = 9
@@ -84,8 +78,8 @@ def generate_board_string(board):
 class Modes(Enum):
     TWO_PLAYER = "Player vs Player"
     VS_AI = "Player vs A.I."
-    P1 = "x"
-    P2 = "o"
+    P1 = "Player 1"
+    P2 = "Player 2"
 
 if __name__ == "__main__":
     main()
