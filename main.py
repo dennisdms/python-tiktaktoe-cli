@@ -15,15 +15,18 @@ def tiktaktoe_player_vs_player():
     turn = Modes.P1
 
     while not game_over:
+        # acquire user input
         if turn == Modes.P1:
             input_p1 = int(input("Player 1 take your turn: "))
         else:
             input_p1 = int(input("Player 2 take your turn: "))
 
+        # validate user input
         if input_p1 not in set(board):
             print("You must enter a number between 1-9")
             continue
 
+        # alter board state with user input
         if turn == Modes.P1:
             board[input_p1-1] = 'x'
             turn = Modes.P2
@@ -33,11 +36,13 @@ def tiktaktoe_player_vs_player():
 
         print(generate_board_string(board))
 
+        # check if game is tied
         if set(board) == set(['x','o']):
             print(generate_board_string(board))
             print("Game tied")
             game_over = True
 
+        # check if game is won - horizontal
         for i in [0, 3, 6]:
             if set(board[i:i+3]) == set(['o']):
                 print("Player 2 has won the game")
@@ -47,6 +52,10 @@ def tiktaktoe_player_vs_player():
                 print("Player 1 has won the game")
                 game_over = True
                 break
+
+        # check if game is won - vertical
+
+        # check if game is won - diagonal
 
 def generate_board_string(board):
     square_width = 9
