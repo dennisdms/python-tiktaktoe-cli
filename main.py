@@ -1,85 +1,94 @@
-from enum import Enum
-from math import ceil
+class TikTackToeGame:
+    def __init__(self):
+        self.board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        self.status = "IDLE"
+        self.current_player = None
+        self.current_player_symbol = None
 
-def main():
-    mode = Modes.TWO_PLAYER
+    def start(self):
+        self.status = "RUNNING"
+        self.current_player = "Player 1"
+        self.current_player_symbol = 'x'
 
-    if mode is Modes.TWO_PLAYER:
-        tiktaktoe_player_vs_player()
+    def take_turn(self, space):
+        self.board[space-1] = self.current_player_symbol
+        self.check_board()
 
-def tiktaktoe_player_vs_player():
-    is_game_over = False
-    board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        if self.status == "TIE" or self.status == "WON":
+            return None
 
-    game_over = False
-    turn = Modes.P1
+        self.switch_players()
 
-    while not game_over:
-        # acquire user input
-        if turn == Modes.P1:
-            input_p1 = int(input("Player 1 take your turn: "))
-        else:
-            input_p1 = int(input("Player 2 take your turn: "))
-
-        # validate user input
-        if input_p1 not in set(board):
-            print("You must enter a number between 1-9")
-            continue
-
-        # alter board state with user input
-        if turn == Modes.P1:
-            board[input_p1-1] = 'x'
-            turn = Modes.P2
-        else:
-            board[input_p1-1] = 'o'
-            turn = Modes.P1
-
-        print(generate_board_string(board))
-
-        # check if game is tied
-        if set(board) == set(['x','o']):
-            print(generate_board_string(board))
-            print("Game tied")
-            game_over = True
+    def check_board(self):
+        if set(self.board) == set(['x', 'o']):
+            self.status = "TIE"
+            return None
 
         winning_indices = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
         
         for index in winning_indices:
-            board_set = set([board[index[0]], board[index[1]], board[index[2]]])
-            if board_set == set('x') or board_set == set('o'):
-                print(str(turn) + " has won the game!")
-                game_over = True
-                break
+            line = set([self.board[index[0]], self.board[index[1]], self.board[index[2]]])
+            if line == set('x') or line == set('o'):
+                self.status = "WON"
+                return None
 
-def generate_board_string(board):
-    square_width = 9
-    square_height = 5
-    board_string = """
-            |         |         
-      {}     |    {}    |     {}   
-            |         |         
-   ---------+---------+---------
-            |         |         
-            |         |         
-      {}     |    {}    |    {}     
-            |         |         
-            |         |         
-   ---------+---------+---------
-            |         |         
-            |         |         
-       {}    |    {}    |      {}   
-            |         |         
-            |         |         
-    """
+        return None
+
+    def switch_players(self):
+        if self.current_player == "Player 1":
+            self.current_player = "Player 2"
+            self.current_player_symbol = 'o'
+        else:
+            self.current_player = "Player 1"
+            self.current_player_symbol = 'x'
+
+    def generate_board_string(self):
+        board_string = """
+                |         |         
+                |         |         
+        {}       |    {}    |     {}  
+                |         |         
+       ---------+---------+---------
+                |         |         
+                |         |         
+        {}       |    {}    |    {}   
+                |         |         
+                |         |         
+       ---------+---------+---------
+                |         |         
+                |         |         
+        {}       |    {}    |      {}  
+                |         |         
+                |         |         """
 
 
-    return board_string.format(*board)
+        return board_string.format(*self.board)
+        
+def tik_tack_toe_runner(mode):
+    game = TikTackToeGame(mode)
 
-class Modes(Enum):
-    TWO_PLAYER = "Player vs Player"
-    VS_AI = "Player vs A.I."
-    P1 = "Player 1"
-    P2 = "Player 2"
+    game.start()
+    print(game.generate_board_string() + '\n')
+    while game.status == "RUNNING":
+        player_input = input(game.current_player + " take your turn... ")
+
+        if player_input not in str(game.board) or player_input == 'x' or player_input == 'o':
+            print(f"Invalid input. Choose an available space: {*[x for x in game.board if str(x).isnumeric()],}")
+            continue
+        
+        game.take_turn(int(player_input))
+
+        print(game.generate_board_string() + '\n')
+
+    if game.status == "TIED":
+        print("Tie Game!")
+    else:
+        print(f"Congratulations {game.current_player}, You've Won!")
+
+    return None
+
+def main():
+    tik_tack_toe_runner("Player vs Player")
 
 if __name__ == "__main__":
     main()
