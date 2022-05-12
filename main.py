@@ -1,11 +1,12 @@
 class TikTackToeGame:
     def __init__(self):
-        self.board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        self.status = "IDLE"
+        self.board = None
+        self.status = None
         self.current_player = None
         self.current_player_symbol = None
 
     def start(self):
+        self.board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         self.status = "RUNNING"
         self.current_player = "Player 1"
         self.current_player_symbol = 'x'
@@ -25,7 +26,6 @@ class TikTackToeGame:
             return None
 
         winning_indices = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
-        
         for index in winning_indices:
             line = set([self.board[index[0]], self.board[index[1]], self.board[index[2]]])
             if line == set('x') or line == set('o'):
@@ -64,8 +64,8 @@ class TikTackToeGame:
 
         return board_string.format(*self.board)
         
-def tik_tack_toe_runner(mode):
-    game = TikTackToeGame(mode)
+def tik_tack_toe_pvp_runner():
+    game = TikTackToeGame()
 
     game.start()
     print(game.generate_board_string() + '\n')
@@ -88,7 +88,25 @@ def tik_tack_toe_runner(mode):
     return None
 
 def main():
-    tik_tack_toe_runner("Player vs Player")
+    while True:
+        user_input = input("\nPick your action (number from 1-3):\n    1) Player vs Player\n    2) Player vs A.I.\n    3) Quit\n \nAction: ")
+
+        if str(user_input) == '1':
+            print("\n \nStarting Player vs Player...")
+            tik_tack_toe_pvp_runner()
+            continue
+
+        elif str(user_input) == '2':
+            print("\nGame mode not implemented yet")
+            continue
+
+        elif str(user_input) == '3':
+            print("\nQuitting game...")
+            break
+
+        else :
+            print("Invalid Input")
+            continue
 
 if __name__ == "__main__":
     main()
