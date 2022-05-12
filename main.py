@@ -63,7 +63,28 @@ class TikTackToeGame:
 
 
         return board_string.format(*self.board)
-        
+
+def main():
+    while True:
+        user_input = input("\nPick your action (number from 1-3):\n    1) Player vs Player\n    2) Player vs A.I.\n    3) Quit\n \nAction: ")
+
+        if str(user_input) == '1':
+            print("Starting Player vs Player...\n")
+            tik_tack_toe_pvp_runner()
+            continue
+
+        elif str(user_input) == '2':
+            print("Game mode not implemented yet...\n")
+            continue
+
+        elif str(user_input) == '3':
+            print("Quitting game...\n")
+            break
+
+        else :
+            print("Invalid Input\n")
+            continue
+
 def tik_tack_toe_pvp_runner():
     game = TikTackToeGame()
 
@@ -86,27 +107,6 @@ def tik_tack_toe_pvp_runner():
         print(f"Congratulations {game.current_player}, You've Won!")
 
     return None
-
-def main():
-    while True:
-        user_input = input("\nPick your action (number from 1-3):\n    1) Player vs Player\n    2) Player vs A.I.\n    3) Quit\n \nAction: ")
-
-        if str(user_input) == '1':
-            print("Starting Player vs Player...\n")
-            tik_tack_toe_pvp_runner()
-            continue
-
-        elif str(user_input) == '2':
-            print("Game mode not implemented yet...\n")
-            continue
-
-        elif str(user_input) == '3':
-            print("Quitting game...\n")
-            break
-
-        else :
-            print("Invalid Input\n")
-            continue
 
 if __name__ == "__main__":
     main()
