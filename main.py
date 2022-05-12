@@ -9,7 +9,7 @@ class TikTackToeGame:
         self.board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         self.status = "RUNNING"
         self.current_player = "Player 1"
-        self.current_player_symbol = 'x'
+        self.current_player_symbol = 'X'
 
     def take_turn(self, space):
         self.board[space-1] = self.current_player_symbol
@@ -21,14 +21,14 @@ class TikTackToeGame:
         self.switch_players()
 
     def check_board(self):
-        if set(self.board) == set(['x', 'o']):
+        if set(self.board) == set(['X', 'O']):
             self.status = "TIE"
             return None
 
         winning_indices = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
         for index in winning_indices:
             line = set([self.board[index[0]], self.board[index[1]], self.board[index[2]]])
-            if line == set('x') or line == set('o'):
+            if line == set('X') or line == set('O'):
                 self.status = "WON"
                 return None
 
@@ -37,32 +37,21 @@ class TikTackToeGame:
     def switch_players(self):
         if self.current_player == "Player 1":
             self.current_player = "Player 2"
-            self.current_player_symbol = 'o'
+            self.current_player_symbol = 'O'
         else:
             self.current_player = "Player 1"
-            self.current_player_symbol = 'x'
+            self.current_player_symbol = 'X'
 
     def generate_board_string(self):
-        board_string = """
-                |         |         
-                |         |         
-        {}       |    {}    |     {}  
-                |         |         
-       ---------+---------+---------
-                |         |         
-                |         |         
-        {}       |    {}    |    {}   
-                |         |         
-                |         |         
-       ---------+---------+---------
-                |         |         
-                |         |         
-        {}       |    {}    |      {}  
-                |         |         
-                |         |         """
+        s = """
+         {} | {} | {} 
+        ---|---|---
+         {} | {} | {} 
+        ---|---|---
+         {} | {} | {}
+        """
 
-
-        return board_string.format(*self.board)
+        return s.format(*self.board)
 
 def main():
     while True:
